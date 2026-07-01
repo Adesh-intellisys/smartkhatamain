@@ -1,0 +1,17 @@
+﻿Page	Module	Components	Framework	Status	Completion %
+Register	Authentication	Register form	React/Vite	In Progress	70
+Login	Authentication	Login form	React/Vite	In Progress	70
+Dashboard	Analytics	Live summary cards, recent transactions, quick actions, amount donut, top products, low stock alerts	React/Vite	In Progress	78
+Customers	Customer Ledger	Summary cards, customer list, detail panel, product entry, history table	React/Vite	In Progress	88
+AddCustomer	Customer Ledger	Add/edit customer form	React/Vite	In Progress	78
+Supplier	Supplier Purchases	Supplier purchase form, summary cards, table, edit/delete	React/Vite	QA	86
+Payment	Payments	Payment form, table, summary, trend and top customer blocks	React/Vite	In Progress	74
+Shopping	Shopping Products	Product catalog, product CRUD, filters, preview modal	React/Vite	QA	84
+Orders	Shopping Orders	Order summary, search/filter, order cards, status updates	React/Vite	QA	86
+Inventory	Inventory	Stock summary, product CRUD, stock update, low stock alerts, history table	React/Vite	QA	90
+Staff	Staff Management	Staff summary, add/edit/delete form, searchable staff list, staff profile	React/Vite	In Progress	78
+Collections	Inventory Alias	Route maps to Inventory	React/Vite	Replaced	90
+Transactions	Ledger	Placeholder only, not active route	React/Vite	Not Started	5
+Reports	Reports	Placeholder	React/Vite	Not Started	5
+Settings	Settings	Placeholder	React/Vite	Not Started	5
+Sidebar	Navigation	Dashboard, Customers, Supplier, Payment, Shopping, Inventory, Staff, Orders, Reports, Settings	React/Vite	Done	95

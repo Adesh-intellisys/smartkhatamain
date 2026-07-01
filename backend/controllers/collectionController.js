@@ -203,13 +203,6 @@ export const addProduct = async (req, res) => {
       ]
     );
 
-    if (toNumber(stock_qty) > 0) {
-      await query(
-        "INSERT INTO stock_movements (product_id, product_name, movement_type, quantity, note) VALUES (?, ?, 'ADD', ?, ?)",
-        [result.insertId, product_name, toNumber(stock_qty), "Opening stock"]
-      );
-    }
-
     res.status(201).json({ success: true, message: "Product Added", id: result.insertId });
   } catch (err) {
     sendError(res, "Product Save Failed", err);
@@ -357,7 +350,7 @@ export const deleteProduct = async (req, res) => {
 export const getStockHistory = async (req, res) => {
   try {
     await schemaReady;
-    const rows = await query("SELECT * FROM stock_movements ORDER BY id DESC LIMIT 80");
+    const rows = await query("SELECT * FROM stock_movements WHERE COALESCE(note, '') <> 'Opening stock' ORDER BY id DESC LIMIT 80");
     res.status(200).json(rows);
   } catch (err) {
     sendError(res, "Stock History Failed", err);

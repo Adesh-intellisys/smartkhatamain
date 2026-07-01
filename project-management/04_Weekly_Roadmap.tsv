@@ -1,0 +1,11 @@
+﻿Week Number	Feature	Page	Module	Owner	Planned Hours	Actual Hours	Dependencies	Target Date	Completion %	Status	Remarks
+Week 1	Core stabilization and UX upgrade	Dashboard/Customers/Inventory/Shopping	Core ledger and stock	Adesh/Dev Team	38	36	Existing APIs	2026-06-29	75	QA	Major UI and data integration completed; manual DB QA pending
+Week 2 - 2026-06-29	Core QA stabilization	Customers/Inventory/Shopping/Payment	QA and defect fixing	Adesh/Dev Team	8	0	Local MySQL test data	2026-06-29	40	In Progress	Some core flows updated; formal manual QA still pending
+Week 2 - 2026-06-30	Standalone Orders implementation	Orders	Order management	Adesh/Dev Team	8	7	Shopping orders API	2026-06-30	85	QA	Orders page implemented with filters, summary and status update
+Week 2 - 2026-07-01	Staff and credit architecture	Staff/Supplier/Customer Credits	Staff + credit split	Adesh/Dev Team	10	9	Staff API and split credit APIs	2026-07-01	78	In Progress	Staff core CRUD added; supplier/customer credit APIs split
+Week 2 - 2026-07-02	Unified transactions	Transactions/API	Ledger consolidation	Adesh/Dev Team	8	0	Payments, customer credits, product entries, orders	2026-07-02	0	Planned	Activate route and build unified transaction data contract
+Week 2 - 2026-07-03	Reports and release readiness	Reports/All	Reporting and QA	Adesh/Dev Team	8	0	Transaction/report data sources	2026-07-03	0	Planned	Reports foundation, smoke checklist, final build
+Week 3	Settings and auth hardening	Settings/Auth/Security	User/account config	Adesh/Dev Team	36	0	JWT middleware and route protection	2026-07-13	0	Planned	Protect routes/APIs and move credentials to env
+Week 4	Testing and release prep	All	QA/DevOps	Adesh/Dev Team	40	2	Feature freeze	2026-07-20	8	Planned	Frontend build passes; automated tests still missing
+Month 2	Advanced reporting/export/mobile polish	Reports/Dashboard	Analytics	Adesh/Dev Team	120	0	Month 1 MVP	2026-08-21	0	Planned	CSV/PDF/export and UX polish
+Month 3	Production readiness	All	Scale/security/deployment	Adesh/Dev Team	120	0	Month 2 complete	2026-09-18	0	Planned	Monitoring, backups, CI/CD, roles

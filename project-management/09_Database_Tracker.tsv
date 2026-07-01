@@ -1,0 +1,17 @@
+﻿Table	Relationships	Indexes	Migration	Seed Data	Completion %
+users	Auth users	Needs review	Implicit/unknown	No	50
+customers	Customer ledger	Needs review	Implicit/unknown	No	70
+customer_product_entries	Customer history and pending balance	customer_id relationship	Controller creates table	No	82
+payments	Customer balance updates and dashboard summaries	customer_id relationship	Controller creates table	No	72
+customer_credits	Customer credit	Needs review	Controller creates table	No	70
+supplier_purchases	Supplier debit and pending balance	Needs review	Controller creates/updates table	No	78
+suppliers	Legacy supplier records	Needs review	Controller creates table	No	55
+products	Shopping and inventory shared product table	Primary key	Schema file and controller	Yes	86
+stock_movements	Product stock history	product_id relationship	Schema file and controller	Opening stock	84
+shopping_orders	Order header	Needs review	Schema file and controller	No	78
+shopping_order_items	Order lines	order_id/product_id relationship	Schema file and controller	No	78
+staff	Staff profile records	Primary key	Controller creates/updates table	No	80
+staff_attendance	Staff attendance history	unique_staff_attendance	Controller creates table	No	70
+staff_salary_payments	Staff salary payments	staff_id relationship	Controller creates table	No	70
+staff_advances	Staff advances	staff_id relationship	Controller creates table	No	70
+migrations	Central migration workflow	Missing	Split between controllers and SQL file	Partial	30

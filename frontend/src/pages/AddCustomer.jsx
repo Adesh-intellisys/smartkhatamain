@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./AddCustomer.css";
-import { addCustomer } from "../services/customerService";
+import { addCustomer, updateCustomer } from "../services/customerService";
 
 function AddCustomer() {
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const editingCustomer = location.state?.customer;
 
     const [formData, setFormData] = useState({
         name: "",
@@ -14,6 +16,19 @@ function AddCustomer() {
         aadharNumber: "",
         address: ""
     });
+
+    useEffect(() => {
+        if (editingCustomer) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setFormData({
+                name: editingCustomer.customer_name || "",
+                mobile: editingCustomer.mobile || "",
+                email: editingCustomer.email || "",
+                aadharNumber: editingCustomer.aadhar_number || "",
+                address: editingCustomer.address || ""
+            });
+        }
+    }, [editingCustomer]);
 
     const handleChange = (e) => {
         setFormData({
@@ -27,12 +42,15 @@ function AddCustomer() {
         e.preventDefault();
 
         try {
+            let response;
 
-            const response =
-                await addCustomer(formData);
+            if (editingCustomer) {
+                response = await updateCustomer(editingCustomer.id, formData);
+            } else {
+                response = await addCustomer(formData);
+            }
 
             alert(response.data.message);
-
             navigate("/customers");
 
         } catch (error) {
@@ -52,8 +70,8 @@ function AddCustomer() {
         <div className="add-customer-page">
 
             <div className="page-title">
-                <h1>Add New Customer</h1>
-                <p>Create customer account in Smart Digital KhataBook</p>
+                <h1>{editingCustomer ? "Edit Customer" : "Add New Customer"}</h1>
+                <p>{editingCustomer ? "Update customer details" : "Create customer account in Smart Digital KhataBook"}</p>
             </div>
 
             <div className="customer-form-card">
@@ -155,7 +173,7 @@ function AddCustomer() {
                             type="submit"
                             className="save-btn"
                         >
-                            Save Customer
+                            {editingCustomer ? "Update Customer" : "Save Customer"}
                         </button>
 
                         <button

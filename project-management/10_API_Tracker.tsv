@@ -1,0 +1,29 @@
+﻿API Name	Endpoint	Method	Integrated	Testing Status	Completion %
+Register	/api/auth/register	POST	Yes	Build only	60
+Login	/api/auth/login	POST	Yes	Build only	60
+Customers	/api/customers	GET/POST/PUT/DELETE	Yes	Build passed; manual pending	86
+Customer History	/api/customers/:id/history	GET	Yes	Build passed; manual pending	86
+Customer Product Entry	/api/customers/:id/product-entry	POST	Yes	Build passed; manual pending	84
+Customer Product Entry Update	/api/customers/:id/product-entry/:entryId	PUT	Service/route ready	Build passed; UI pending check	75
+Customer Product Entry Delete	/api/customers/:id/product-entry/:entryId	DELETE	Service/route ready	Build passed; UI pending check	75
+Payments	/api/payments	GET/POST/PUT/DELETE	Yes	Build passed; manual pending	78
+Payment Summary	/api/payments/summary	GET	Yes	Build passed; manual pending	80
+Customer Credits	/api/customer-credits	GET/POST/PUT/DELETE	Yes	Build passed; manual pending	78
+Supplier Purchases	/api/supplier-purchases	GET/POST/PUT/DELETE	Yes	Build passed; manual pending	84
+Supplier Purchase Summary	/api/supplier-purchases/summary	GET	Yes	Build passed; manual pending	84
+Suppliers Legacy	/api/suppliers	GET/POST/PUT/DELETE	Partial	Manual pending	60
+Shopping Products	/api/shopping/products	GET/POST/PUT/DELETE	Yes	Build passed; manual pending	80
+Shopping Orders	/api/shopping/orders	GET/POST	Yes	Build passed; manual pending	80
+Shopping Order Status	/api/shopping/orders/:id/status	PATCH	Yes	Build passed; manual pending	82
+Staff Summary	/api/staff/summary	GET	Yes	Build passed; manual pending	86
+Staff CRUD	/api/staff	GET/POST/PUT/DELETE	Yes	Build passed; manual pending	84
+Staff History	/api/staff/:id/history	GET	Service ready	Build passed; UI pending	72
+Staff Attendance	/api/staff/:id/attendance	POST	Service ready	Build passed; UI pending	70
+Staff Salary Payments	/api/staff/:id/salary-payments	POST	Service ready	Build passed; UI pending	70
+Staff Advances	/api/staff/:id/advances	POST	Service ready	Build passed; UI pending	70
+Inventory Products	/api/inventory/products	GET/POST/PUT/DELETE	Yes	Build passed; manual pending	86
+Inventory Stock Update	/api/inventory/products/:id/stock	PATCH	Yes	Build passed; manual pending	86
+Inventory History	/api/inventory/history	GET	Yes	Build passed; manual pending	86
+Inventory Summary	/api/inventory/summary	GET	Yes	Build passed; manual pending	86
+Collections Compatibility	/api/collections/*	GET/POST/PUT/PATCH/DELETE	Yes	Build passed; manual pending	82
+Transactions	/api/transactions	GET	No	Not started	0

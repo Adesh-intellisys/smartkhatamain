@@ -1,13 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Customers from "./pages/Customers";
-import Credit from "./pages/Credit";
+import Supplier from "./pages/Supplier";
 import Payment from "./pages/Payment";
 import Shopping from "./pages/Shopping";
-import Collections from "./pages/Collections";
-import Transactions from "./pages/Transactions";
+import Inventory from "./pages/Inventory";
+import Staff from "./pages/Staff";
+import Orders from "./pages/Orders";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import AddCustomer from "./pages/AddCustomer";
@@ -23,14 +24,17 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={withSidebar(<Dashboard />)} />
         <Route path="/customers" element={withSidebar(<Customers />)} />
-        <Route path="/credit" element={withSidebar(<Credit />)} />
+        <Route path="/supplier" element={withSidebar(<Supplier />)} />
         <Route path="/payment" element={withSidebar(<Payment />)} />
         <Route path="/shopping" element={withSidebar(<Shopping />)} />
-        <Route path="/collections" element={withSidebar(<Collections />)} />
-        <Route path="/transactions" element={withSidebar(<Transactions />)} />
+        <Route path="/orders" element={withSidebar(<Orders />)} />
+        <Route path="/inventory" element={withSidebar(<Inventory />)} />
+        <Route path="/staff" element={withSidebar(<Staff />)} />
+        <Route path="/collections" element={withSidebar(<Inventory />)} />
         <Route path="/reports" element={withSidebar(<Reports />)} />
         <Route path="/settings" element={withSidebar(<Settings />)} />
         <Route path="/add-customer" element={withSidebar(<AddCustomer />)} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,0 +1,15 @@
+﻿Feature	Unit Test	Integration Test	Manual Test	UAT	Status
+Authentication	Pending	Pending	Pending	Pending	Not Started
+Customer Ledger	Pending	Pending	Pending	Pending	Build Passed / Manual QA Pending
+Payments	Pending	Pending	Pending	Pending	Build Passed / Manual QA Pending
+Supplier Purchases	Pending	Pending	Pending	Pending	Build Passed / Manual QA Pending
+Customer Credits	Pending	Pending	Pending	Pending	Build Passed / Manual QA Pending
+Inventory / Collections	Pending	Pending	Pending	Pending	Build Passed / Manual QA Pending
+Shopping Products	Pending	Pending	Pending	Pending	Build Passed / Manual QA Pending
+Orders	Pending	Pending	Pending	Pending	Build Passed / Manual QA Pending
+Staff	Pending	Pending	Pending	Pending	Build Passed / Manual QA Pending
+Dashboard	Pending	Pending	Pending	Pending	Build Passed / Manual QA Pending
+Transactions	Pending	Pending	Pending	Pending	Not Started
+Reports	Pending	Pending	Pending	Pending	Not Started
+Settings	Pending	Pending	Pending	Pending	Not Started
+Frontend Build	Not Applicable	Not Applicable	Passed	Not Applicable	Passed on 2026-07-01

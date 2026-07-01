@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { FiBarChart2, FiCreditCard, FiFileText, FiHome, FiLogOut, FiMenu, FiPackage, FiSettings, FiShoppingCart, FiUsers, FiX } from "react-icons/fi";
+import { FiBarChart2, FiCreditCard, FiFileText, FiHome, FiLogOut, FiMenu, FiPackage, FiSettings, FiShoppingCart, FiUserCheck, FiUsers, FiX } from "react-icons/fi";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 
 const navItems = [
   { label: "Dashboard", path: "/dashboard", icon: FiHome },
   { label: "Customers", path: "/customers", icon: FiUsers },
-  { label: "Credit", path: "/credit", icon: FiCreditCard },
+  { label: "Supplier", path: "/supplier", icon: FiCreditCard },
   { label: "Payment", path: "/payment", icon: FiCreditCard },
   { label: "Shopping", path: "/shopping", icon: FiShoppingCart },
-  { label: "Collections", path: "/collections", icon: FiPackage },
-  { label: "Transactions", path: "/transactions", icon: FiFileText },
+  { label: "Inventory", path: "/inventory", icon: FiPackage },
+  { label: "Staff", path: "/staff", icon: FiUserCheck },
+  { label: "Orders", path: "/orders", icon: FiFileText },
   { label: "Reports", path: "/reports", icon: FiBarChart2 },
   { label: "Settings", path: "/settings", icon: FiSettings },
 ];
@@ -32,7 +33,6 @@ function Sidebar({ children }) {
     <div className="app-layout">
       <aside className={isOpen ? "app-sidebar open" : "app-sidebar"}>
         <div className="sidebar-brand">
-          <div className="brand-mark">K</div>
           <div>
             <h2>KhataBook</h2>
             <p>Business Desk</p>

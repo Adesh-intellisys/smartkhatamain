@@ -119,6 +119,7 @@ const paymentSchemaReady = (async () => {
     "Payment current balance column"
   );
   await addColumnIfMissing("ALTER TABLE payments ADD COLUMN payment_method VARCHAR(50) NOT NULL DEFAULT 'Cash'", "Payment method column");
+  await addColumnIfMissing("ALTER TABLE customers ADD COLUMN opening_balance DECIMAL(12, 2) NOT NULL DEFAULT 0", "Customer opening balance column");
 
   await query(`
     UPDATE customers

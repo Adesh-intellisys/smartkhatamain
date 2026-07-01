@@ -1,0 +1,12 @@
+﻿Service	Controller	Business Logic	Middleware	Authentication	Status	Completion %
+Auth	authController	Register, login, JWT	None	JWT generation	In Progress	65
+Customers	customerController	CRUD, product entries, update/delete product entries, payment/order/product history merge	None	Not enforced	In Progress	86
+Payments	paymentController	CRUD, summary, balance updates, trends/top/recent data	None	Not enforced	In Progress	78
+Customer Credits	customerCreditController	Customer credit CRUD	None	Not enforced	In Progress	78
+Supplier Purchases	supplierPurchaseController	Supplier purchase CRUD, summary and pending calculations	None	Not enforced	QA	84
+Suppliers	supplierController	Legacy supplier table CRUD still present	None	Not enforced	Partial	60
+Shopping	shoppingController	Product/order CRUD, order status, stock updates	None	Not enforced	QA	80
+Inventory / Collections	collectionController	Product stock CRUD, summary, stock movements, seed/sample products	None	Not enforced	QA	84
+Staff	staffController	Staff CRUD, summary, attendance, salary payments, advance payments, history	None	Not enforced	In Progress	86
+Transactions	transactionController	No implementation found	None	Not enforced	Not Started	0
+Server Routes	server.js	/customer-credits, /supplier-purchases, /staff, /inventory and compatibility routes mounted	CORS/JSON	Not enforced	Done	90

@@ -225,3 +225,140 @@ export const updateOrderStatus = async (req, res) => {
     sendError(res, "Order Status Update Failed", err);
   }
 };
+
+// ADD NEW PRODUCT
+export const addProduct = async (req, res) => {
+  const {
+    product_name,
+    category,
+    price,
+    stock_qty,
+    image_url,
+    description,
+  } = req.body;
+
+  if (!product_name || !category || !price) {
+    return res.status(400).json({
+      success: false,
+      message: "Product Name, Category and Price are required",
+    });
+  }
+
+  try {
+    await schemaReady;
+
+    const result = await query(
+      `
+      INSERT INTO products
+      (
+        product_name,
+        category,
+        price,
+        stock_qty,
+        image_url,
+        description
+      )
+      VALUES (?, ?, ?, ?, ?, ?)
+      `,
+      [
+        product_name,
+        category,
+        price,
+        stock_qty || 0,
+        image_url || "",
+        description || "",
+      ]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Product Added Successfully",
+      id: result.insertId,
+    });
+  } catch (err) {
+    sendError(res, "Product Add Failed", err);
+  }
+};
+
+
+// UPDATE PRODUCT
+export const updateProduct = async (req, res) => {
+  const { id } = req.params;
+
+  const {
+    product_name,
+    category,
+    price,
+    stock_qty,
+    image_url,
+    description,
+  } = req.body;
+
+  try {
+    await schemaReady;
+
+    const result = await query(
+      `
+      UPDATE products
+      SET
+        product_name = ?,
+        category = ?,
+        price = ?,
+        stock_qty = ?,
+        image_url = ?,
+        description = ?
+      WHERE id = ?
+      `,
+      [
+        product_name,
+        category,
+        price,
+        stock_qty,
+        image_url,
+        description,
+        id,
+      ]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Product Not Found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Product Updated Successfully",
+    });
+  } catch (err) {
+    sendError(res, "Product Update Failed", err);
+  }
+};
+
+
+// DELETE PRODUCT
+export const deleteProduct = async (req, res) => {
+  try {
+    await schemaReady;
+
+    const result = await query(
+      "DELETE FROM products WHERE id = ?",
+      [req.params.id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Product Not Found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Product Deleted Successfully",
+    });
+  } catch (err) {
+    sendError(res, "Product Delete Failed", err);
+  }
+};

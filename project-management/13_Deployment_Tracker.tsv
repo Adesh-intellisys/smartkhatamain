@@ -1,0 +1,7 @@
+﻿Environment	Frontend Version	Backend Version	Database Version	Status
+Local Development	0.0.0	1.0.0	adesh local MySQL	Available
+Frontend Production Build	0.0.0	Not applicable	Not applicable	Passed on 2026-07-01
+Staging	Not assigned	Not assigned	Not assigned	Not Started
+Production	Not assigned	Not assigned	Not assigned	Not Started
+Database Backup	Not applicable	Not applicable	Not configured	Not Started
+CI/CD	Not configured	Not configured	Not configured	Not Started

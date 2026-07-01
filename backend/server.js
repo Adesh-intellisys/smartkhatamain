@@ -3,12 +3,14 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import authRoutes from "./routes/authRoutes.js";
+import customerCreditRoutes from "./routes/customerCreditRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
-import creditRoutes from "./routes/creditRoutes.js";
+import supplierPurchaseRoutes from "./routes/supplierPurchaseRoutes.js";
 import supplierRoutes from "./routes/supplierRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import shoppingRoutes from "./routes/shoppingRoutes.js";
-import collectionRoutes from "./routes/collectionRoutes.js";
+import staffRoutes from "./routes/staffRoutes.js";
+import inventoryRoutes from "./routes/collectionRoutes.js";
 
 dotenv.config();
 
@@ -20,12 +22,15 @@ app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/customer-credits", customerCreditRoutes);
 app.use("/api/customers", customerRoutes);
-app.use("/api/credit", creditRoutes);
+app.use("/api/supplier-purchases", supplierPurchaseRoutes);
 app.use("/api/suppliers", supplierRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/shopping", shoppingRoutes);
-app.use("/api/collections", collectionRoutes);
+app.use("/api/staff", staffRoutes);
+app.use("/api/inventory", inventoryRoutes);
+app.use("/api/collections", inventoryRoutes);
 
 // Test Route
 app.get("/", (req, res) => {

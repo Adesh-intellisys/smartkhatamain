@@ -1,0 +1,10 @@
+﻿Risk Type	Description	Severity	Owner	Mitigation Plan	Status
+Testing	No automated tests found; only frontend build verified	High	Adesh/Dev Team	Add frontend smoke tests and backend API integration tests	Open
+Security	Hardcoded MySQL password in backend config	High	Adesh/Dev Team	Move credentials to .env and rotate local password if needed	Open
+Security	JWT middleware exists but APIs are not protected consistently	High	Adesh/Dev Team	Apply auth middleware to protected routes and frontend routes	Open
+Scope	Reports, settings and transactions remain incomplete	Medium	Adesh/Dev Team	Implement after Staff/Orders QA	Open
+Scope	Staff advanced workflows have backend APIs but frontend forms/history are pending	Medium	Adesh/Dev Team	Add attendance, salary, advance and history UI sections	Open
+Data	Database migrations are split between controllers and SQL file	Medium	Adesh/Dev Team	Create controlled migration scripts	Open
+Dependency	Root package/node_modules introduced outside frontend/backend structure	Low	Adesh/Dev Team	Move required dependencies into owning package and ignore node_modules	Open
+Data Quality	Dashboard still falls back to mock values when data is empty	Medium	Adesh/Dev Team	Add backend summary endpoint and empty-state UI	Open
+Data Model	Staff form fields employee_id/email/department are not persisted by backend schema	Medium	Adesh/Dev Team	Add backend columns or remove frontend fields	Open

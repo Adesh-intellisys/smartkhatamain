@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./Payment.css";
 
 import {
@@ -43,6 +44,7 @@ const formatDate = (value) => {
 const toInputDate = (value) => (value ? String(value).slice(0, 10) : todayInput());
 
 function Payment() {
+  const location = useLocation();
   const [customers, setCustomers] = useState([]);
   const [payments, setPayments] = useState([]);
   const [summary, setSummary] = useState({
@@ -85,8 +87,20 @@ function Payment() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadPaymentPage();
   }, []);
+
+  useEffect(() => {
+    const customerId = location.state?.customerId;
+    if (!customerId || customers.length === 0) return;
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setForm((current) => ({
+      ...current,
+      customer_id: String(customerId),
+    }));
+  }, [customers, location.state?.customerId]);
 
   const selectedCustomer = useMemo(
     () => customers.find((customer) => String(customer.id) === String(form.customer_id)),

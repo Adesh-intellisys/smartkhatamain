@@ -1,0 +1,5 @@
+﻿Sprint	Features	Completed	In Progress	Pending	Bugs	Testing Status	Release Readiness	Health Status
+Sprint 1	Dashboard live data, customer ledger upgrade, inventory split, shopping UX	3	3	2	6	Build Passed / Manual QA Pending	48%	Yellow
+Sprint 2	Orders implementation, Staff module, supplier/customer credit split, transactions/reports next	2	3	3	Known open bugs tracked	Build Passed / Manual QA Pending	50%	Yellow
+Sprint 3	Settings, auth hardening, environment/security cleanup	0	0	5	Unknown	Not Started	8%	Yellow
+Sprint 4	Automated tests, deployment, release candidate	0	0	6	Unknown	Build only	8%	Red
