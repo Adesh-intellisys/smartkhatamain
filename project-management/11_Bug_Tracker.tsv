@@ -5,7 +5,7 @@ BUG-003	Reports and settings are placeholders	Medium	Adesh/Dev Team	2026-07-06	O
 BUG-004	No automated unit/integration tests	High	Adesh/Dev Team	2026-07-15	Open
 BUG-005	Hardcoded database credentials in backend config	High	Adesh/Dev Team	2026-07-10	Open
 BUG-006	ProtectedRoute/auth middleware not consistently applied	High	Adesh/Dev Team	2026-07-10	Open
-BUG-007	Staff attendance/salary/advance APIs exist but frontend forms/history are not implemented	Medium	Adesh/Dev Team	2026-07-05	Open
+BUG-007	Staff salary/advance/document/report sections are visible but not fully wired to real backend data	Medium	Adesh/Dev Team	2026-07-05	Open
 BUG-008	Root package/node_modules added outside frontend/backend; dependency ownership should be cleaned	Low	Adesh/Dev Team	2026-07-05	Open
 BUG-009	Some UI strings show encoding artifacts for rupee/icons in terminal view	Low	Adesh/Dev Team	2026-07-05	Open
-BUG-010	Staff frontend includes employee_id/email/department fields but backend currently persists only name/mobile/role/salary/date/status/address/note	Medium	Adesh/Dev Team	2026-07-03	Open
+BUG-010	Staff form field persistence mismatch resolved for staff_id/email/department	Medium	Adesh/Dev Team	2026-07-01	Closed

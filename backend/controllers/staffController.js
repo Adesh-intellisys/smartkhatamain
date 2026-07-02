@@ -27,6 +27,12 @@ const addColumnIfMissing = async (table, column, definition) => {
   }
 };
 
+const ensureLegacyColumnDefault = async (table, column, definition) => {
+  if (await columnExists(table, column)) {
+    await query(`ALTER TABLE ${table} MODIFY COLUMN ${definition}`);
+  }
+};
+
 const normalizeDate = (value) => {
   const raw = String(value || "").trim();
   const match = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -65,7 +71,10 @@ const schemaReady = (async () => {
   `);
 
   await addColumnIfMissing("staff", "name", "name VARCHAR(140) NOT NULL DEFAULT ''");
+  await addColumnIfMissing("staff", "staff_id", "staff_id VARCHAR(50) NOT NULL DEFAULT ''");
   await addColumnIfMissing("staff", "mobile", "mobile VARCHAR(20) NOT NULL DEFAULT ''");
+  await addColumnIfMissing("staff", "email", "email VARCHAR(160) NOT NULL DEFAULT ''");
+  await addColumnIfMissing("staff", "department", "department VARCHAR(100) NOT NULL DEFAULT ''");
   await addColumnIfMissing("staff", "role", "role VARCHAR(100) NOT NULL DEFAULT ''");
   await addColumnIfMissing("staff", "salary", "salary DECIMAL(12, 2) NOT NULL DEFAULT 0");
   await addColumnIfMissing("staff", "joining_date", "joining_date DATE NULL");
@@ -78,6 +87,15 @@ const schemaReady = (async () => {
     "updated_at",
     "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
   );
+  await ensureLegacyColumnDefault("staff", "staff_name", "staff_name VARCHAR(140) NOT NULL DEFAULT ''");
+  await ensureLegacyColumnDefault("staff", "employee_id", "employee_id VARCHAR(50) NOT NULL DEFAULT ''");
+  if (await columnExists("staff", "employee_id")) {
+    await query(`
+      UPDATE staff
+      SET staff_id = employee_id
+      WHERE (staff_id IS NULL OR staff_id = '') AND employee_id IS NOT NULL AND employee_id <> ''
+    `);
+  }
 
   await query(`
     CREATE TABLE IF NOT EXISTS staff_attendance (
@@ -118,8 +136,11 @@ const schemaReady = (async () => {
 const staffSelect = `
   SELECT
     id,
+    staff_id,
     name,
     mobile,
+    email,
+    department,
     role,
     salary,
     DATE_FORMAT(joining_date, '%Y-%m-%d') AS joining_date,
@@ -132,24 +153,33 @@ const staffSelect = `
 `;
 
 const validateStaffPayload = (payload) => {
+  const staffId = String(payload.staff_id || payload.employee_id || "").trim();
   const name = String(payload.name || "").trim();
   const mobile = String(payload.mobile || "").trim();
+  const email = String(payload.email || "").trim();
+  const department = String(payload.department || "").trim();
   const role = String(payload.role || "").trim();
   const joiningDate = normalizeDate(payload.joining_date);
   const salary = toAmount(payload.salary);
   const status = payload.status === "Inactive" ? "Inactive" : "Active";
 
+  if (!staffId) return { error: "Staff ID is required" };
   if (!name) return { error: "Name is required" };
   if (!mobile) return { error: "Mobile is required" };
   if (!/^[0-9+\-\s()]{7,20}$/.test(mobile)) return { error: "Mobile number is invalid" };
+  if (email && !/^\S+@\S+\.\S+$/.test(email)) return { error: "Email address is invalid" };
+  if (!department) return { error: "Department is required" };
   if (!role) return { error: "Designation is required" };
   if (salary < 0) return { error: "Salary cannot be negative" };
   if (!joiningDate) return { error: "Joining date must be a valid date" };
 
   return {
     data: {
+      staff_id: staffId,
       name,
       mobile,
+      email,
+      department,
       role,
       salary,
       joining_date: joiningDate,
@@ -220,10 +250,22 @@ export const addStaff = async (req, res) => {
     const result = await query(
       `
         INSERT INTO staff
-        (name, mobile, role, salary, joining_date, status, address, note)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        (staff_id, name, mobile, email, department, role, salary, joining_date, status, address, note)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
-      [staff.name, staff.mobile, staff.role, staff.salary, staff.joining_date, staff.status, staff.address, staff.note]
+      [
+        staff.staff_id,
+        staff.name,
+        staff.mobile,
+        staff.email,
+        staff.department,
+        staff.role,
+        staff.salary,
+        staff.joining_date,
+        staff.status,
+        staff.address,
+        staff.note,
+      ]
     );
 
     res.status(201).json({ success: true, message: "Staff added", id: result.insertId });
@@ -247,12 +289,15 @@ export const updateStaff = async (req, res) => {
     const result = await query(
       `
         UPDATE staff
-        SET name = ?, mobile = ?, role = ?, salary = ?, joining_date = ?, status = ?, address = ?, note = ?
+        SET staff_id = ?, name = ?, mobile = ?, email = ?, department = ?, role = ?, salary = ?, joining_date = ?, status = ?, address = ?, note = ?
         WHERE id = ?
       `,
       [
+        staff.staff_id,
         staff.name,
         staff.mobile,
+        staff.email,
+        staff.department,
         staff.role,
         staff.salary,
         staff.joining_date,

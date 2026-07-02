@@ -34,13 +34,3 @@ export const addStaffAttendance = async (id, data) => {
   const response = await api.post(`/staff/${id}/attendance`, data);
   return response.data;
 };
-
-export const addStaffSalaryPayment = async (id, data) => {
-  const response = await api.post(`/staff/${id}/salary-payments`, data);
-  return response.data;
-};
-
-export const addStaffAdvancePayment = async (id, data) => {
-  const response = await api.post(`/staff/${id}/advances`, data);
-  return response.data;
-};

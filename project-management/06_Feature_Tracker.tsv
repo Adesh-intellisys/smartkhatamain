@@ -5,9 +5,9 @@ Payments	74	78	70	78	18	0	In Progress	72
 Supplier Purchases	86	84	78	85	20	0	QA	82
 Customer Credits	55	78	70	78	12	0	In Progress	58
 Inventory / Collections	90	84	84	86	22	0	QA	84
-Shopping Products	84	80	76	80	20	0	QA	78
+Shopping Products	88	80	76	80	22	0	QA	82
 Orders	86	80	76	80	22	0	QA	82
-Staff Management	78	86	80	86	18	0	In Progress	78
+Staff Management	88	90	86	88	22	0	QA	86
 Dashboard	78	25	0	72	18	0	In Progress	68
 Transactions	5	0	0	0	0	0	Not Started	5
 Reports	5	0	0	0	0	0	Not Started	5

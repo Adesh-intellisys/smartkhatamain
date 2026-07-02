@@ -1,6 +1,6 @@
 ﻿Task ID	Today's Tasks	Tomorrow Tasks	Day After Tomorrow Tasks	Estimated Hours	Priority	Dependencies	Status
-SK-W2-006	01 Jul: Complete Staff CRUD verification and fix form/backend mismatches	02 Jul: Add attendance/salary/advance UI panels	03 Jul: QA staff history and summary totals	8	High	Staff backend APIs	In Progress
-SK-W2-008	01 Jul: Verify customer product entry edit/delete service and route	02 Jul: Add edit/delete controls in Customers UI if missing	03 Jul: Regression test customer balances	5	Medium	Customer product entry API	In Progress
+SK-W2-009	01 Jul: QA Staff HRMS expansion and attendance save/history flow	02 Jul: Connect salary/advance UI to existing backend APIs	03 Jul: Replace static staff report/document data with real data or clear placeholders	8	High	Staff backend APIs	QA
+SK-W2-010	01 Jul: Verify Shopping product-only catalog after Orders split	02 Jul: Regression test Orders page	03 Jul: Confirm dashboard order/product data remains accurate	3	Medium	Shopping and Orders APIs	QA
 SK-W2-003	02 Jul: Activate Transactions route and unified backend transaction API	03 Jul: Add transaction filters/search	04 Jul: Use data in Reports page	8	High	Payments, credits, product entries, orders	To Do
 SK-W2-004	03 Jul: Build Reports foundation with summary cards and date filters	04 Jul: Add CSV-ready table	05 Jul: Validate totals	8	High	SK-W2-003 or direct module APIs	To Do
-SK-QA-002	01 Jul: Run frontend build and smoke checklist	02 Jul: Manual API checks in MySQL	03 Jul: Update release readiness	4	High	Core module stability	In Progress
+SK-QA-003	01 Jul: Run frontend build and update project Excel	02 Jul: Manual API checks in MySQL	03 Jul: Update release readiness	4	High	Core module stability	In Progress

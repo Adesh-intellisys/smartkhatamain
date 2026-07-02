@@ -10,8 +10,8 @@ products	Shopping and inventory shared product table	Primary key	Schema file and
 stock_movements	Product stock history	product_id relationship	Schema file and controller	Opening stock	84
 shopping_orders	Order header	Needs review	Schema file and controller	No	78
 shopping_order_items	Order lines	order_id/product_id relationship	Schema file and controller	No	78
-staff	Staff profile records	Primary key	Controller creates/updates table	No	80
-staff_attendance	Staff attendance history	unique_staff_attendance	Controller creates table	No	70
-staff_salary_payments	Staff salary payments	staff_id relationship	Controller creates table	No	70
-staff_advances	Staff advances	staff_id relationship	Controller creates table	No	70
+staff	Staff profile records including staff_id/email/department	Primary key	Controller creates/updates table	No	88
+staff_attendance	Staff attendance history	unique_staff_attendance	Controller creates table	No	78
+staff_salary_payments	Staff salary payments	staff_id relationship	Controller creates table	No	72
+staff_advances	Staff advances	staff_id relationship	Controller creates table	No	72
 migrations	Central migration workflow	Missing	Split between controllers and SQL file	Partial	30

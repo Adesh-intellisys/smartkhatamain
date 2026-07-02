@@ -1,229 +1,340 @@
-import { useEffect, useMemo, useState } from "react";
-import {
-  FiCheckCircle,
-  FiClock,
-  FiFilter,
-  FiPhone,
-  FiRefreshCw,
-  FiSearch,
-  FiShoppingBag,
-  FiTruck,
-} from "react-icons/fi";
-import "./Orders.css";
-import { getShoppingOrders, updateShoppingOrderStatus } from "../services/shoppingService";
-
-const orderStatuses = ["Placed", "Packing", "Ready", "Collected", "Cancelled"];
-const orderFilters = ["Open", ...orderStatuses, "All"];
-
-const formatMoney = (value) =>
-  new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(Number(value || 0));
-
-const formatDateTime = (value) => {
-  if (!value) return "-";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
+import React, { useState } from "react";
+import "./orders.css";
+const initialOrders = [
+  {
+    id: 1,
+    customer: "Amit Sharma",
+    phone: "9876543210",
+    address: "Wagholi, Pune",
+    time: "10:30 AM",
+    total: 1850,
+    payment: "Cash",
+    status: "Pending",
+    products: [
+      { name: "Rice 5kg", qty: 2 },
+      { name: "Sugar 1kg", qty: 1 },
+      { name: "Oil 1L", qty: 3 },
+    ],
+  },
+  {
+    id: 2,
+    customer: "Ramesh Gupta",
+    phone: "9988776655",
+    address: "Kharadi, Pune",
+    time: "11:15 AM",
+    total: 950,
+    payment: "UPI",
+    status: "Accepted",
+    products: [
+      { name: "Milk", qty: 2 },
+      { name: "Bread", qty: 4 },
+      { name: "Butter", qty: 1 },
+    ],
+  },
+  {
+    id: 3,
+    customer: "Suresh Patil",
+    phone: "9012345678",
+    address: "Viman Nagar",
+    time: "12:05 PM",
+    total: 1420,
+    payment: "Online",
+    status: "Ready",
+    products: [
+      { name: "Cold Drink", qty: 6 },
+      { name: "Biscuits", qty: 5 },
+      { name: "Chips", qty: 8 },
+    ],
+  },
+];
 
 function Orders() {
-  const [orders, setOrders] = useState([]);
-  const [orderFilter, setOrderFilter] = useState("Open");
-  const [orderSearch, setOrderSearch] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [orders, setOrders] = useState(initialOrders);
+  const [search, setSearch] = useState("");
 
-  const loadOrders = async () => {
-    try {
-      setLoading(true);
-      setError("");
-      const orderData = await getShoppingOrders();
-      setOrders(Array.isArray(orderData) ? orderData : []);
-    } catch (err) {
-      console.log(err);
-      setError("Orders load failed. Please check backend and database.");
-    } finally {
-      setLoading(false);
-    }
+  const updateStatus = (id, status) => {
+    setOrders((prev) =>
+      prev.map((order) =>
+        order.id === id ? { ...order, status } : order
+      )
+    );
   };
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    loadOrders();
-  }, []);
-
-  const filteredOrders = useMemo(() => {
-    const query = orderSearch.trim().toLowerCase();
-    return orders.filter((item) => {
-      const matchesFilter =
-        orderFilter === "All" ||
-        item.status === orderFilter ||
-        (orderFilter === "Open" && !["Collected", "Cancelled"].includes(item.status));
-      const matchesSearch =
-        !query ||
-        [item.customer_name, item.mobile, item.status, item.id]
-          .filter(Boolean)
-          .some((value) => String(value).toLowerCase().includes(query));
-      return matchesFilter && matchesSearch;
-    });
-  }, [orderFilter, orderSearch, orders]);
-
-  const orderStats = useMemo(
-    () => ({
-      total: orders.length,
-      open: orders.filter((item) => !["Collected", "Cancelled"].includes(item.status)).length,
-      ready: orders.filter((item) => item.status === "Ready").length,
-      collected: orders.filter((item) => item.status === "Collected").length,
-    }),
-    [orders]
+  const filteredOrders = orders.filter((order) =>
+    order.customer.toLowerCase().includes(search.toLowerCase())
   );
 
-  const showSuccess = (text) => {
-    setError("");
-    setMessage(text);
-    window.setTimeout(() => setMessage(""), 2500);
-  };
+  const pendingOrders = filteredOrders.filter(
+    (order) => order.status === "Pending"
+  );
 
-  const changeStatus = async (id, status) => {
-    try {
-      setError("");
-      const result = await updateShoppingOrderStatus(id, status);
-      showSuccess(result.message || "Order status updated.");
-      await loadOrders();
-    } catch (err) {
-      console.log(err);
-      setError(err.response?.data?.message || "Status update failed.");
-    }
-  };
+  const acceptedOrders = filteredOrders.filter(
+    (order) => order.status === "Accepted"
+  );
+
+  const readyOrders = filteredOrders.filter(
+    (order) => order.status === "Ready"
+  );
+
+  const deliveredOrders = filteredOrders.filter(
+    (order) => order.status === "Delivered"
+  );
+
+  const totalOrders = orders.length;
+  const pending = pendingOrders.length;
+  const accepted = acceptedOrders.length;
+  const ready = readyOrders.length;
+  const delivered = deliveredOrders.length;
+  const revenue = orders.reduce((sum, o) => sum + o.total, 0);
 
   return (
     <div className="orders-page">
+
       <div className="orders-header">
         <div>
-          <span className="orders-kicker">
-            <FiShoppingBag /> Order Desk
-          </span>
-          <h1>Orders</h1>
-          <p>Track every shopping order from placed to collected.</p>
+          <span>Today's Orders</span>
+          <h1>Orders Dashboard</h1>
+          <p>Manage customer order requests and parcel status.</p>
         </div>
-        <button className="refresh-btn" type="button" onClick={loadOrders}>
-          <FiRefreshCw /> Refresh
+
+        <input
+          type="text"
+          placeholder="🔍 Search Customer..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      <div className="order-summary">
+
+        
+
+        <div className="summary-card">
+          <h4>Pending</h4>
+          <h2>{pending}</h2>
+        </div>
+
+        <div className="summary-card">
+          <h4>Accepted</h4>
+          <h2>{accepted}</h2>
+        </div>
+
+        <div className="summary-card">
+          <h4>Ready</h4>
+          <h2>{ready}</h2>
+        </div>
+
+        <div className="summary-card">
+          <h4>Delivered</h4>
+          <h2>{delivered}</h2>
+        </div>
+
+      </div>
+
+      {/* Pending Orders */}
+      
+<div className="section-card pending-card">
+    <div className="section-header">
+        <h2 className="section-title">
+            🟠 Pending Orders ({pending})
+        </h2>
+    </div>
+<div className="order-row">
+    {pendingOrders.map((order) => (
+  <div className="mini-order-card" key={order.id}>
+
+    <div className="mini-top">
+      <div>
+        <h2>{order.customer}</h2>
+        <p>📞 {order.phone}</p>
+        <p>📍 {order.address}</p>
+        <p>🕒 {order.time}</p>
+      </div>
+
+      <span className={`status ${order.status.toLowerCase()}`}>
+        {order.status}
+      </span>
+    </div>
+
+    <p>🛒 {order.products.length} Items</p>
+
+        <div className="price-box">
+          <strong>₹{order.total}</strong>
+          <span>{order.payment}</span>
+        </div>
+
+    
+
+    <div className="order-actions">
+      <button
+        className="accept-btn"
+        onClick={() => updateStatus(order.id, "Accepted")}
+      >
+        Accept
+      </button>
+
+      <button
+        className="reject-btn"
+        onClick={() => updateStatus(order.id, "Rejected")}
+      >
+        Reject
+      </button>
+    </div>
+
+  </div>
+))}
+</div>
+</div>
+
+{/* Accepted Orders */}
+
+<h2 className="section-title"></h2>
+<div className="section-card accepted-card">
+    <div className="section-header">
+        <h2 className="section-title">
+            🟦 Accepted Orders ({accepted})
+        </h2>
+    </div>
+
+<div className="order-row">
+  {acceptedOrders.map((order) => (
+    <div className="mini-order-card" key={order.id}>
+
+      <div className="mini-top">
+        <div>
+          <h2>{order.customer}</h2>
+          <p>📞 {order.phone}</p>
+          <p>📍 {order.address}</p>
+          <p>🕒 {order.time}</p>
+        </div>
+
+        <span className={`status ${order.status.toLowerCase()}`}>
+          {order.status}
+        </span>
+      </div>
+
+      <p>🛒 {order.products.length} Items</p>
+
+        <div className="price-box">
+          <strong>₹{order.total}</strong>
+          <span>{order.payment}</span>
+        </div>
+
+      
+
+      <div className="order-actions">
+        <button
+          className="ready-btn"
+          onClick={() => updateStatus(order.id, "Ready")}
+        >
+          Ready
         </button>
       </div>
 
-      {(message || error) && <div className={error ? "orders-alert error" : "orders-alert success"}>{error || message}</div>}
-
-      <section className="orders-stats" aria-label="Orders summary">
-        <div className="order-stat-card">
-          <FiShoppingBag />
-          <span>Total Orders</span>
-          <strong>{orderStats.total}</strong>
-        </div>
-        <div className="order-stat-card">
-          <FiClock />
-          <span>Open Orders</span>
-          <strong>{orderStats.open}</strong>
-        </div>
-        <div className="order-stat-card ready">
-          <FiTruck />
-          <span>Ready</span>
-          <strong>{orderStats.ready}</strong>
-        </div>
-        <div className="order-stat-card collected">
-          <FiCheckCircle />
-          <span>Collected</span>
-          <strong>{orderStats.collected}</strong>
-        </div>
-      </section>
-
-      <section className="orders-panel">
-        <div className="section-title-row">
-          <div>
-            <h2>Order Lists</h2>
-            <p>Move each order from placed to collected as the work finishes.</p>
-          </div>
-          <div className="orders-tools">
-            <label className="control-with-icon compact">
-              <FiSearch />
-              <input value={orderSearch} onChange={(event) => setOrderSearch(event.target.value)} placeholder="Search orders..." />
-            </label>
-            <label className="control-with-icon compact">
-              <FiFilter />
-              <select value={orderFilter} onChange={(event) => setOrderFilter(event.target.value)}>
-                {orderFilters.map((status) => (
-                  <option key={status}>{status}</option>
-                ))}
-              </select>
-            </label>
-          </div>
-        </div>
-
-        <div className="orders-grid">
-          {loading ? (
-            <div className="empty-orders">Loading orders...</div>
-          ) : filteredOrders.length ? (
-            filteredOrders.map((item) => (
-              <article className="order-card" key={item.id}>
-                <div className="order-top">
-                  <div>
-                    <strong>#{item.id} {item.customer_name}</strong>
-                    <span>{formatDateTime(item.pickup_time)}</span>
-                  </div>
-                  <span className={`order-status-pill ${item.status?.toLowerCase()}`}>{item.status}</span>
-                </div>
-
-                {item.mobile && (
-                  <div className="order-contact">
-                    <FiPhone />
-                    <span>{item.mobile}</span>
-                  </div>
-                )}
-
-                <div className="order-status-row">
-                  <select value={item.status} onChange={(event) => changeStatus(item.id, event.target.value)}>
-                    {orderStatuses.map((status) => (
-                      <option key={status}>{status}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="order-products-list">
-                  {item.items && item.items.length > 0 ? (
-                    item.items.map((product, index) => (
-                      <div className="order-product-item" key={`${item.id}-${product.product_name}-${index}`}>
-                        <span className="product-name">
-                          {index + 1}. {product.product_name}
-                        </span>
-                        <span className="product-qty">Qty: {product.quantity}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="order-empty-products">No products available.</p>
-                  )}
-                </div>
-
-                <div className="order-bottom">
-                  <span><FiTruck /> {item.status === "Ready" ? "Customer can collect order" : "Prepare order"}</span>
-                  <b>{formatMoney(item.total_amount)}</b>
-                </div>
-              </article>
-            ))
-          ) : (
-            <div className="empty-orders">No orders found.</div>
-          )}
-        </div>
-      </section>
     </div>
-  );
-}
+  ))}
+  </div>
+</div>
 
+{/* Ready Orders */}
+
+<div className="section-card ready-card">
+  <div className="section-header">
+        <h2 className="section-title">
+            🟣 Ready Orders ({ready})
+        </h2>
+    </div>
+
+<div className="order-row">
+  {readyOrders.map((order) => (
+    <div className="mini-order-card" key={order.id}>
+
+      <div className="mini-top">
+        <div>
+          <h2>{order.customer}</h2>
+          <p>📞 {order.phone}</p>
+          <p>📍 {order.address}</p>
+          <p>🕒 {order.time}</p>
+        </div>
+
+        <span className={`status ${order.status.toLowerCase()}`}>
+          {order.status}
+        </span>
+      </div>
+
+      <p>🛒 {order.products.length} Items</p>
+
+          <div className="price-box">
+            <strong>₹{order.total}</strong>
+            <span>{order.payment}</span>
+          </div>
+
+      
+
+      <div className="order-actions">
+        <button
+          className="parcel-btn"
+          onClick={() => updateStatus(order.id, "Delivered")}
+        >
+          Parcel Delivered
+        </button>
+      </div>
+
+    </div>
+  ))}
+  </div>
+</div>
+
+
+{/* Delivered Orders */}
+
+
+<div className="section-card ready-card">
+<div className="section-header">
+        <h2 className="section-title">
+            🟢 Delivered Orders ({delivered})
+        </h2>
+    </div>
+
+<div className="order-row">
+  {deliveredOrders.map((order) => (
+    <div className="mini-order-card" key={order.id}>
+
+      <div className="mini-top">
+        <div>
+          <h2>{order.customer}</h2>
+          <p>📞 {order.phone}</p>
+          <p>📍 {order.address}</p>
+          <p>🕒 {order.time}</p>
+        </div>
+
+        <span className={`status ${order.status.toLowerCase()}`}>
+          {order.status}
+        </span>
+      </div>
+
+     <p>🛒 {order.products.length} Items</p>
+
+        <div className="price-box">
+          <strong>₹{order.total}</strong>
+          <span>{order.payment}</span>
+        </div>
+
+      
+
+      <div className="order-actions">
+        <button className="done-btn">
+          Delivered
+        </button>
+      </div>
+
+    </div>
+  ))}
+  </div>
+</div>
+
+</div>
+);
+}
 export default Orders;
+

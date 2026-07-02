@@ -15,7 +15,6 @@ import {
 
 import "./Shopping.css";
 import {
-  getShoppingOrders,
   getShoppingProducts,
   addProduct,
   updateProduct,
@@ -63,7 +62,6 @@ const normalizeProductImageUrl = (value) => {
 
 function Shopping() {
   const [products, setProducts] = useState([]);
-  const [orders, setOrders] = useState([]);
   const [productForm, setProductForm] = useState(initialProduct);
   const [editingId, setEditingId] = useState(null);
   const [search, setSearch] = useState("");
@@ -85,12 +83,8 @@ function Shopping() {
     try {
       setLoading(true);
       setError("");
-      const [productData, orderData] = await Promise.all([
-        getShoppingProducts(),
-        getShoppingOrders(),
-      ]);
+      const productData = await getShoppingProducts();
       setProducts(Array.isArray(productData) ? productData : []);
-      setOrders(Array.isArray(orderData) ? orderData : []);
     } catch (err) {
       console.log(err);
       setError("Shopping data load failed. Please check backend and database.");
@@ -372,7 +366,7 @@ function Shopping() {
             </div>
           </div>
 
-          <form id="product-admin-form" className="product-admin-form" onSubmit={saveProduct}>
+          <form id="product-admin-form" className="product-admin-form" onSubmit={saveProduct} noValidate>
             <div className="product-form-grid">
               <label className="product-field product-field-name">
                 <span>Product Name</span>

@@ -1,7 +1,0 @@
-
-> backend@1.0.0 start
-> node server.js
-
-◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
-🚀 Server Running On Port 5000
-✅ MySQL Connected Successfully

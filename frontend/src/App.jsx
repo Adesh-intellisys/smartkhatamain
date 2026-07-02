@@ -9,7 +9,7 @@ import Shopping from "./pages/Shopping";
 import Inventory from "./pages/Inventory";
 import Staff from "./pages/Staff";
 import Orders from "./pages/Orders";
-import Reports from "./pages/Reports";
+import Report from "./pages/Reports";
 import Settings from "./pages/Settings";
 import AddCustomer from "./pages/AddCustomer";
 import Sidebar from "./components/Sidebar";
@@ -27,11 +27,10 @@ function App() {
         <Route path="/supplier" element={withSidebar(<Supplier />)} />
         <Route path="/payment" element={withSidebar(<Payment />)} />
         <Route path="/shopping" element={withSidebar(<Shopping />)} />
-        <Route path="/orders" element={withSidebar(<Orders />)} />
         <Route path="/inventory" element={withSidebar(<Inventory />)} />
         <Route path="/staff" element={withSidebar(<Staff />)} />
-        <Route path="/collections" element={withSidebar(<Inventory />)} />
-        <Route path="/reports" element={withSidebar(<Reports />)} />
+        <Route path="/orders" element={withSidebar(<Orders />)} />
+        <Route path="/reports" element={withSidebar(<Report />)} />
         <Route path="/settings" element={withSidebar(<Settings />)} />
         <Route path="/add-customer" element={withSidebar(<AddCustomer />)} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

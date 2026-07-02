@@ -813,6 +813,12 @@
   box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
 }
 
+.product-field input:invalid,
+.product-field textarea:invalid {
+  border-color: #d1dbe7;
+  box-shadow: none;
+}
+
 .product-admin-actions {
   display: flex;
   justify-content: flex-end;
